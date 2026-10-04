@@ -12,13 +12,16 @@ async def create_payment_intent(
     description: str,
     token: str,
 ) -> dict:
-    intent = stripe.PaymentIntent.create(
+    params = dict(
         amount=int(round(amount * 100)),
         currency=currency,
         description=description,
         metadata={"customer_name": customer_name, "payment_token": token},
         automatic_payment_methods={"enabled": True},
     )
+    if settings.STATEMENT_DESCRIPTOR_SUFFIX:
+        params["statement_descriptor_suffix"] = settings.STATEMENT_DESCRIPTOR_SUFFIX
+    intent = stripe.PaymentIntent.create(**params)
     return {"id": intent.id, "client_secret": intent.client_secret}
 
 

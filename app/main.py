@@ -80,6 +80,7 @@ def _migrate_sqlite():
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
+    settings.validate_required()
     Base.metadata.create_all(bind=engine)
     _run_light_migrations()
     yield
@@ -90,6 +91,10 @@ app = FastAPI(
     description="Secure payment link generation",
     version="1.0.0",
     lifespan=lifespan,
+    # Sin documentación pública de la API en producción.
+    docs_url=None,
+    redoc_url=None,
+    openapi_url=None,
 )
 
 app.add_middleware(

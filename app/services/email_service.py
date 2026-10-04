@@ -214,5 +214,5 @@ def send_payment_email(
         return _send_via_brevo_api(to_email, customer_name, amount, payment_url, expires_in)
     if settings.SMTP_USER and settings.SMTP_PASSWORD:
         return _send_via_smtp(to_email, customer_name, amount, payment_url, expires_in)
-    print("[Email] No configurado: falta SENDGRID_API_KEY, BREVO_API_KEY o credenciales SMTP")
+    print("[Email] No configurado: falta GMAIL_*, SENDGRID_API_KEY, BREVO_API_KEY o credenciales SMTP")
     return False

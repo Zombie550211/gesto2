@@ -23,6 +23,8 @@ def send_payment_sms(
     payment_url: str,
     expires_in: str,
 ) -> bool:
+    if not settings.twilio_enabled:
+        return False
     try:
         client = Client(settings.TWILIO_ACCOUNT_SID, settings.TWILIO_AUTH_TOKEN)
         first_name = customer_name.split()[0] if customer_name else "Customer"
